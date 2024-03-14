@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     <Box h = "calc(100vh - 60.8px)" bg = "primary.300">
       <Box
-        maxW = "600px"
+        maxW = "800px"
         m = "auto"
 				p = {8}
         >

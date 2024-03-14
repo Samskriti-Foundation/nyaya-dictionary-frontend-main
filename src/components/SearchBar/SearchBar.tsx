@@ -3,10 +3,6 @@ import {
   Icon,
   IconButton,
   Input,
-  InputGroup,
-  InputLeftAddon,
-  InputLeftElement,
-  InputRightElement,
   Select
 } from "@chakra-ui/react"
 import { ChangeEvent, useState } from "react"
@@ -25,37 +21,54 @@ export default function SearchBar() {
   
   return (
     <Flex>
-      
-      <InputGroup size = {{base: "md", md: "lg"}}>
-        <Select
-          placeholder = {langValue}
-          value = {langValue}
-          onChange = {(e) => handleChange(e)}
-          w = "150px"
-          size = "lg"
-          bg = "primary.500"
-          color = "primary.300"
-          >
-            <option value={languages[0]}>English</option>
-            <option value={languages[1]}>Sanskrit</option>
-        </Select>
-        <Input
-          placeholder = "Search for words"
-          _placeholder={{color: "primary.300"}}
-          border = "none"
-          bg = "primary.500"
-          color = "primary.300"
-        />
-        <InputRightElement>
-          <IconButton
-            icon = {<Icon as = {FaSearch} name = "search"/>}
-            aria-label="search-icon"
-            color = "primary.300"
-            bg = "primary.500"
-            _hover = {{bg: "primary.300", color: "primary.500"}}
-            />
-        </InputRightElement>
-      </InputGroup>
+      <Select
+        value = {langValue}
+        onChange = {(e) => handleChange(e)}
+        size = {{base: "md", md: "lg"}}
+        bg = "primary.400"
+        w = "200px"
+        color = "primary.500"
+        roundedRight = "none"
+        roundedLeft = "full"
+        border = "none"
+        fontWeight="bold"
+        >
+          <option value={languages[0]}>English</option>
+          <option value={languages[1]}>Sanskrit</option>
+      </Select>
+      <Input
+        placeholder = "Search for words"
+        _placeholder={{color: "primary.300"}}
+        border = "none"
+        bg = "primary.500"
+        color = "primary.300"
+        roundedRight = "none"
+        roundedLeft = "none"
+        size = {{base: "md", md: "lg"}}
+      />
+      <IconButton
+        icon = {<Icon as = {FaSearch} name = "search"/>}
+        aria-label="search-icon"
+        color = "primary.500"
+        bg = "primary.400"
+        roundedRight = "full"
+        _hover = {{color: "primary.900"}}
+        _active = {{bg: "primary.400", color: "primary.900"}}
+        size = {{base: "md", md: "lg"}}
+      />
     </Flex>
+    // <InputGroup size = {{base: "md", md: "lg"}}>
+      
+    //   <InputRightElement>
+    //     <IconButton
+    //       icon = {<Icon as = {FaSearch} name = "search"/>}
+    //       aria-label="search-icon"
+    //       color = "primary.500"
+    //       bg = "primary.400"
+    //       roundedRight = "full"
+    //       _hover = {{bg: "primary.300", color: "primary.500"}}
+    //       />
+    //   </InputRightElement>
+    // </InputGroup>
   )
 }
