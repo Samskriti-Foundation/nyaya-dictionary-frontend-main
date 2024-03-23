@@ -7,21 +7,37 @@ import {
   Select,
   Text
 } from "@chakra-ui/react"
+import { useQuery } from "@tanstack/react-query"
 import { ChangeEvent, useState } from "react"
 
 import { FaSearch } from "react-icons/fa"
+import { searchWord } from "../../api/wordsApi"
+
+import { useDebounce } from "../../hooks/useDebounce"
+
+import { useNavigate } from "react-router-dom"
 
 const languages = ["English", "Sanskrit"]
 
 export default function SearchBar() {
   const [langValue, setLangValue] = useState(languages[0])
-
-  const animals = ["Tiger", "Elephant", "Dog", "Cat", "Snake", "Horse"]
-
   const [isSearching, setIsSearching] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearch = useDebounce(searchTerm, 300);
 
-  const handleSearch = (e: any) => {
-    setIsSearching(!isSearching)
+  const navigate = useNavigate()
+
+  const {data: options} = useQuery({
+    queryKey: ["search", debouncedSearch],
+    queryFn: () => searchWord(debouncedSearch),
+    enabled: debouncedSearch.length > 0
+  })
+
+  console.log(options)
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value == "" ? setIsSearching(false) : setIsSearching(true)
+    setSearchTerm(e.target.value)
   }
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -74,16 +90,18 @@ export default function SearchBar() {
         textAlign= "center"
         bg = "primary.400"
         color = "primary.900"
+        borderRadius = "md"
         >
-        {isSearching && animals.map((ani, i) => (
-          <Text
-            key = {i}
-            p = {1}
-            borderBottom={"1px solid"}
-            borderBottomColor = {"primary.500"}
-            _hover = {{color: "primary.300", bg : "primary.500"}}
-            >{ani}
-          </Text>
+        {isSearching && options?.map((option: [string, string], i: number) => (
+            <Text
+              key = {i}
+              p = {1}
+              borderBottom={"1px solid"}
+              borderBottomColor = {"primary.500"}
+              _hover = {{color: "primary.300", bg : "primary.500"}}
+              onClick = {() => {navigate(`/words/${option[0]}`); setIsSearching(false)}}
+              >{`${option[0]} | ${option[1]}`}
+            </Text>
           )
         )}
       </Box>

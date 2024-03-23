@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query"
 
 
 import {
-  Text,
   Heading,
   Box,
   Flex,
@@ -12,7 +11,8 @@ import {
   ListItem,
   Button,
 } from "@chakra-ui/react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 
 interface Word{
@@ -36,8 +36,6 @@ interface Word{
 }
 
 export default function WordDisplay({word}: {word: string | undefined}) {
-  const navigate = useNavigate()
-
   const {data}: {data: Word | undefined} = useQuery({
     queryKey: ["word", word],
     queryFn: () => getWord(word),
@@ -104,7 +102,13 @@ export default function WordDisplay({word}: {word: string | undefined}) {
       :
       <Box textAlign="center">
         <Heading p = {4}>Word not found</Heading>
-        <Button onClick = {() => navigate("/")} color = "primary.300" bg = "primary.500" _hover = {{bg: "primary.900"}}>Go to Home</Button>
+        <Button
+          onClick = {() => window.history.back()}
+          leftIcon = {<FaArrowAltCircleLeft/>}
+          color = "primary.300"
+          bg = "primary.500"
+          _hover = {{bg: "primary.900"}}
+          >Go Back</Button>
       </Box>
       }
     </Box>
