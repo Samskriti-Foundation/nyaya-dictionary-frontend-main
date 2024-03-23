@@ -28,7 +28,7 @@ export default function SearchBar() {
     let value = e.target.value
     value == languages[0] ? setLangValue(languages[0]) : setLangValue(languages[1])
   }
-  
+
   return (
     <Flex flexDirection={"column"}>
       <Flex w = "100%">
