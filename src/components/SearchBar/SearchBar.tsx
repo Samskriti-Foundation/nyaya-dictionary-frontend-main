@@ -2,7 +2,7 @@ import {
   Box,
   Flex,
   Icon,
-  IconButton,
+  Button,
   Input,
   Select,
   Text
@@ -74,8 +74,7 @@ export default function SearchBar() {
           size = {{base: "md", md: "lg"}}
           onChange = {(e) => handleSearch(e)}
         />
-        <IconButton
-          icon = {<Icon as = {FaSearch} name = "search"/>}
+        <Button
           aria-label="search-icon"
           color = "primary.500"
           bg = "primary.400"
@@ -83,7 +82,8 @@ export default function SearchBar() {
           _hover = {{color: "primary.900"}}
           _active = {{bg: "primary.400", color: "primary.900"}}
           size = {{base: "md", md: "lg"}}
-        />
+          onClick = {() => {navigate(`/words/${searchTerm}`); setIsSearching(false)}}
+        ><FaSearch size = "28px"/></Button>
       </Flex>
       <Box
         w = "100%"
