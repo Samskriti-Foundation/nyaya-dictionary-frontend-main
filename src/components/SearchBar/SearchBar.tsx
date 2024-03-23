@@ -1,9 +1,11 @@
 import {
+  Box,
   Flex,
   Icon,
   IconButton,
   Input,
-  Select
+  Select,
+  Text
 } from "@chakra-ui/react"
 import { ChangeEvent, useState } from "react"
 
@@ -14,61 +16,77 @@ const languages = ["English", "Sanskrit"]
 export default function SearchBar() {
   const [langValue, setLangValue] = useState(languages[0])
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const animals = ["Tiger", "Elephant", "Dog", "Cat", "Snake", "Horse"]
+
+  const [isSearching, setIsSearching] = useState(false)
+
+  const handleSearch = (e: any) => {
+    setIsSearching(!isSearching)
+  }
+
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let value = e.target.value
     value == languages[0] ? setLangValue(languages[0]) : setLangValue(languages[1])
   }
   
   return (
-    <Flex>
-      <Select
-        value = {langValue}
-        onChange = {(e) => handleChange(e)}
-        size = {{base: "md", md: "lg"}}
+    <Flex flexDirection={"column"}>
+      <Flex w = "100%">
+        <Select
+          value = {langValue}
+          onChange = {(e) => handleSelectChange(e)}
+          size = {{base: "md", md: "lg"}}
+          bg = "primary.400"
+          w = "200px"
+          color = "primary.500"
+          roundedRight = "none"
+          roundedLeft = "full"
+          border = "none"
+          fontWeight="bold"
+          >
+            <option value={languages[0]}>English</option>
+            <option value={languages[1]}>Sanskrit</option>
+        </Select>
+        <Input
+          placeholder = "Search for words"
+          _placeholder={{color: "primary.300"}}
+          border = "none"
+          bg = "primary.500"
+          color = "primary.300"
+          roundedRight = "none"
+          roundedLeft = "none"
+          size = {{base: "md", md: "lg"}}
+          onChange = {(e) => handleSearch(e)}
+        />
+        <IconButton
+          icon = {<Icon as = {FaSearch} name = "search"/>}
+          aria-label="search-icon"
+          color = "primary.500"
+          bg = "primary.400"
+          roundedRight = "full"
+          _hover = {{color: "primary.900"}}
+          _active = {{bg: "primary.400", color: "primary.900"}}
+          size = {{base: "md", md: "lg"}}
+        />
+      </Flex>
+      <Box
+        w = "100%"
+        textAlign= "center"
         bg = "primary.400"
-        w = "200px"
-        color = "primary.500"
-        roundedRight = "none"
-        roundedLeft = "full"
-        border = "none"
-        fontWeight="bold"
+        color = "primary.900"
         >
-          <option value={languages[0]}>English</option>
-          <option value={languages[1]}>Sanskrit</option>
-      </Select>
-      <Input
-        placeholder = "Search for words"
-        _placeholder={{color: "primary.300"}}
-        border = "none"
-        bg = "primary.500"
-        color = "primary.300"
-        roundedRight = "none"
-        roundedLeft = "none"
-        size = {{base: "md", md: "lg"}}
-      />
-      <IconButton
-        icon = {<Icon as = {FaSearch} name = "search"/>}
-        aria-label="search-icon"
-        color = "primary.500"
-        bg = "primary.400"
-        roundedRight = "full"
-        _hover = {{color: "primary.900"}}
-        _active = {{bg: "primary.400", color: "primary.900"}}
-        size = {{base: "md", md: "lg"}}
-      />
+        {isSearching && animals.map((ani, i) => (
+          <Text
+            key = {i}
+            p = {1}
+            borderBottom={"1px solid"}
+            borderBottomColor = {"primary.500"}
+            _hover = {{color: "primary.300", bg : "primary.500"}}
+            >{ani}
+          </Text>
+          )
+        )}
+      </Box>
     </Flex>
-    // <InputGroup size = {{base: "md", md: "lg"}}>
-      
-    //   <InputRightElement>
-    //     <IconButton
-    //       icon = {<Icon as = {FaSearch} name = "search"/>}
-    //       aria-label="search-icon"
-    //       color = "primary.500"
-    //       bg = "primary.400"
-    //       roundedRight = "full"
-    //       _hover = {{bg: "primary.300", color: "primary.500"}}
-    //       />
-    //   </InputRightElement>
-    // </InputGroup>
   )
 }

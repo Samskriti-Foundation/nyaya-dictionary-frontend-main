@@ -1,7 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import SearchBar from "../components/SearchBar/SearchBar"
+import {useParams} from "react-router-dom"
+import WordDisplay from "../components/WordDisplay/WordDisplay";
 
-export default function HomePage() {
+export default function WordsPage() {
+  const {word} = useParams()
+
   return (
     <Box minH = "calc(100vh - 60.8px)" bg = "primary.300">
       <Box
@@ -10,6 +14,7 @@ export default function HomePage() {
 				p = {8}
         >
       	<SearchBar/>
+        <WordDisplay word = {word}/>
     	</Box>
     </Box>
   )
