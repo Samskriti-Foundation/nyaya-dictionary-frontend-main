@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Icon,
   Button,
   Input,
   Select,
@@ -46,39 +45,36 @@ export default function SearchBar() {
   }
 
   return (
-    <Flex flexDirection={"column"}>
+    <Flex flexDirection={"column"} boxShadow="lg">
       <Flex w = "100%">
         <Select
           value = {langValue}
           onChange = {(e) => handleSelectChange(e)}
           size = {{base: "md", md: "lg"}}
-          bg = "primary.400"
-          w = "200px"
-          color = "primary.500"
+          bg = "primary"
+          color = "background"
           roundedRight = "none"
-          roundedLeft = "full"
+          w = "200px"
           border = "none"
           fontWeight="bold"
           >
-            <option value={languages[0]}>English</option>
-            <option value={languages[1]}>Sanskrit</option>
+            <option value={languages[0]} style = {{color: "primary"}}>English</option>
+            <option value={languages[1]} style = {{color: "primary"}}>Sanskrit</option>
         </Select>
         <Input
           placeholder = "Search for words"
-          _placeholder={{color: "primary.300"}}
+          _placeholder={{color: "primary", opacity: "0.5"}}
           border = "none"
-          bg = "primary.500"
-          color = "primary.300"
-          roundedRight = "none"
-          roundedLeft = "none"
+          bg = "foreground"
+          color = "primary"
           size = {{base: "md", md: "lg"}}
           onChange = {(e) => handleSearch(e)}
         />
         <Button
           aria-label="search-icon"
-          color = "primary.500"
-          bg = "primary.400"
-          roundedRight = "full"
+          color = "background"
+          roundedLeft = "none"
+          bg = "primary"
           _hover = {{color: "primary.900"}}
           _active = {{bg: "primary.400", color: "primary.900"}}
           size = {{base: "md", md: "lg"}}
@@ -95,10 +91,10 @@ export default function SearchBar() {
         {isSearching && options?.map((option: [string, string], i: number) => (
             <Text
               key = {i}
-              p = {1}
-              borderBottom={"1px solid"}
-              borderBottomColor = {"primary.500"}
-              _hover = {{color: "primary.300", bg : "primary.500"}}
+              p = {2}
+              bg = "foreground"
+              color = "primary"
+              _hover = {{color: "foreground", bg : "secondary"}}
               onClick = {() => {navigate(`/words/${option[0]}`); setIsSearching(false)}}
               >{`${option[0]} | ${option[1]}`}
             </Text>

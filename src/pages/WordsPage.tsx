@@ -7,7 +7,7 @@ export default function WordsPage() {
   const {word} = useParams()
 
   return (
-    <Box minH = "calc(100vh - 60.8px)" bg = "primary.300">
+    <Box minH = "calc(100vh - 60.8px)" bg = "background">
       <Box
         maxW = "800px"
         m = "auto"
