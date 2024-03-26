@@ -29,7 +29,7 @@ export default function SearchBar() {
   const {data: options} = useQuery({
     queryKey: ["search", debouncedSearch],
     queryFn: () => searchWord(debouncedSearch),
-    enabled: debouncedSearch.length > 0
+    enabled: debouncedSearch.length > 2
   })
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
