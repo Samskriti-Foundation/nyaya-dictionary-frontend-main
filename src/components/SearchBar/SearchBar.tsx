@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Icon,
   Button,
   Input,
   Select,
@@ -30,10 +29,8 @@ export default function SearchBar() {
   const {data: options} = useQuery({
     queryKey: ["search", debouncedSearch],
     queryFn: () => searchWord(debouncedSearch),
-    enabled: debouncedSearch.length > 0
+    enabled: debouncedSearch.length > 2
   })
-
-  console.log(options)
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value == "" ? setIsSearching(false) : setIsSearching(true)
@@ -46,40 +43,43 @@ export default function SearchBar() {
   }
 
   return (
-    <Flex flexDirection={"column"}>
+    <Flex flexDirection={"column"} boxShadow="lg" maxW = "4xl" mx = "auto">
       <Flex w = "100%">
         <Select
           value = {langValue}
           onChange = {(e) => handleSelectChange(e)}
           size = {{base: "md", md: "lg"}}
-          bg = "primary.400"
-          w = "200px"
-          color = "primary.500"
+          bg = "primary"
+          color = "background"
           roundedRight = "none"
-          roundedLeft = "full"
+          w = "200px"
           border = "none"
           fontWeight="bold"
           >
-            <option value={languages[0]}>English</option>
-            <option value={languages[1]}>Sanskrit</option>
+            <option value={languages[0]} style = {{color: "black"}}>English</option>
+            <option value={languages[1]} style = {{color: "primary"}}>Sanskrit</option>
         </Select>
         <Input
           placeholder = "Search for words"
-          _placeholder={{color: "primary.300"}}
+          _placeholder={{color: "primary", opacity: "0.5"}}
           border = "none"
-          bg = "primary.500"
-          color = "primary.300"
-          roundedRight = "none"
-          roundedLeft = "none"
+          bg = "foreground"
+          color = "primary"
           size = {{base: "md", md: "lg"}}
           onChange = {(e) => handleSearch(e)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              navigate(`/words/${searchTerm}`)
+              setIsSearching(false)
+            }
+          }}
         />
         <Button
           aria-label="search-icon"
-          color = "primary.500"
-          bg = "primary.400"
-          roundedRight = "full"
-          _hover = {{color: "primary.900"}}
+          color = "background"
+          roundedLeft = "none"
+          bg = "primary"
+          _hover = {{bg: "secondary"}}
           _active = {{bg: "primary.400", color: "primary.900"}}
           size = {{base: "md", md: "lg"}}
           onClick = {() => {navigate(`/words/${searchTerm}`); setIsSearching(false)}}
@@ -93,15 +93,15 @@ export default function SearchBar() {
         borderRadius = "md"
         >
         {isSearching && options?.map((option: [string, string], i: number) => (
-            <Text
-              key = {i}
-              p = {1}
-              borderBottom={"1px solid"}
-              borderBottomColor = {"primary.500"}
-              _hover = {{color: "primary.300", bg : "primary.500"}}
-              onClick = {() => {navigate(`/words/${option[0]}`); setIsSearching(false)}}
-              >{`${option[0]} | ${option[1]}`}
-            </Text>
+          <Text
+            key = {i}
+            p = {2}
+            bg = "foreground"
+            color = "primary"
+            _hover = {{color: "foreground", bg : "secondary", cursor: "pointer"}}
+            onClick = {() => {navigate(`/words/${option[0]}`); setIsSearching(false)}}
+            >{`${option[0]} | ${option[1]}`}
+          </Text>
           )
         )}
       </Box>

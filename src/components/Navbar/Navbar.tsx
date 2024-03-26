@@ -4,16 +4,15 @@ import {
     Heading,
     Link,
     Spacer,
-    Box
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <Box
-      as = "nav"
-      color = "primary.300"
-      bg = "primary.500"
+    <Flex
+      as = "header"
+      bg = "foreground"
+      boxShadow = "md"
       p = {4}
       >
       <Flex
@@ -22,12 +21,13 @@ export default function Navbar() {
         >
         <Heading 
           fontSize={{base: "xl", md: "2xl"}}
-          color = "primary.300"
+          bgGradient='linear(to-l, primary, secondary)'
+          bgClip='text'
           ><Link 
             as = {NavLink}
             to = "/"
             _hover = {{textDecoration: "none"}}
-            >Nyaya Dictionary
+            >Nyaya Khosha
           </Link>
         </Heading>
         <Spacer/>
@@ -38,15 +38,19 @@ export default function Navbar() {
           <Link
             as = {NavLink}
             to = "/"
+            _hover = {{color: "secondary"}}
+            _activeLink = {{color: "primary"}}
             >Home
           </Link>
           <Link
             as = {NavLink}
             to = "/about"
+            _hover = {{color: "secondary"}}
+            _activeLink = {{color: "primary"}}
             >About
           </Link>
         </HStack>
       </Flex>
-    </Box>
+    </Flex>
   )
 }
