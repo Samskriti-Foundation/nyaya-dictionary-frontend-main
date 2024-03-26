@@ -4,16 +4,15 @@ import {
     Heading,
     Link,
     Spacer,
-    Box
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <Box
-      as = "nav"
+    <Flex
+      as = "header"
       bg = "foreground"
-      boxShadow = "lg"
+      boxShadow = "md"
       p = {4}
       >
       <Flex
@@ -52,6 +51,6 @@ export default function Navbar() {
           </Link>
         </HStack>
       </Flex>
-    </Box>
+    </Flex>
   )
 }
