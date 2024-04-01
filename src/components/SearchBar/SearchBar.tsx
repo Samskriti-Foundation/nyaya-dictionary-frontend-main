@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom"
 
 const languages = ["English", "Sanskrit"]
 
-export default function SearchBar() {
+export default function SearchBar({setSearchTermOut}: {setSearchTermOut?: React.Dispatch<React.SetStateAction<string>>}) {
   const [langValue, setLangValue] = useState(languages[0])
   const [isSearching, setIsSearching] = useState(false)
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,6 +35,7 @@ export default function SearchBar() {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value == "" ? setIsSearching(false) : setIsSearching(true)
     setSearchTerm(e.target.value)
+    setSearchTermOut && setSearchTermOut(e.target.value)
   }
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -43,7 +44,7 @@ export default function SearchBar() {
   }
 
   return (
-    <Flex flexDirection={"column"} boxShadow="lg" maxW = "4xl" mx = "auto">
+    <Flex flexDirection={"column"} boxShadow="lg" maxW = "4xl" mx = "auto" pos = "relative">
       <Flex w = "100%">
         <Select
           value = {langValue}
@@ -91,12 +92,14 @@ export default function SearchBar() {
         bg = "primary.400"
         color = "primary.900"
         borderRadius = "md"
+        pos = "absolute"
+        top = "48px"
         >
         {isSearching && options?.map((option: [string, string], i: number) => (
           <Text
             key = {i}
             p = {2}
-            bg = "foreground"
+            bg = "#E2E8F0"
             color = "primary"
             _hover = {{color: "foreground", bg : "secondary", cursor: "pointer"}}
             onClick = {() => {navigate(`/words/${option[0]}`); setIsSearching(false)}}

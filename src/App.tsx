@@ -10,6 +10,7 @@ function App() {
       <>
         <Routes>
           <Route path = '/' element = {<HomePage/>}/>
+          <Route path = '/words/' element = {<HomePage/>}/>
           <Route path = '/words/:word' element = {<WordsPage/>}/>
           <Route path = '/about' element = {<AboutPage/>}/>
           <Route path = "*" element = {<NotFoundPage/>}/>

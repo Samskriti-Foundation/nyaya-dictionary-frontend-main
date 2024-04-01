@@ -1,5 +1,4 @@
 import { Box, IconButton } from "@chakra-ui/react";
-import SearchBar from "../components/SearchBar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 
 import { FaArrowAltCircleUp } from "react-icons/fa";
@@ -15,7 +14,6 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
         <Navbar />
       </Box>
       <Box maxW="4xl" as = "main" mx="auto" p={4}>
-        <SearchBar />
         {children}
       </Box>
       <Box
@@ -29,7 +27,7 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
           aria-label="Go Back"
           bg = "primary"
           color = "background"
-          _hover = {{bg: "secondary"}}
+          _hover = {{bg: "primary"}}
           onClick = {() => window.scrollTo({top: 0, behavior: 'smooth'})}
           />
       </Box>
