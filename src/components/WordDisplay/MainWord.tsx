@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom"
 
 interface MainWordProps{
   sanskrit_word: string,
-  english_word: string,
+  english_transliteration: string,
   detailed_description: string | null,
   synonyms: [string],
   antonyms: [string]
@@ -22,12 +22,12 @@ export default function MainWord(props: MainWordProps) {
         fontSize = {{base: "2xl", md: "3xl"}}
         textAlign = "center"
         py = {2}
-        >{`${props.sanskrit_word} | ${props.english_word}`}
+        >{`${props.sanskrit_word} | ${props.english_transliteration}`}
       </Heading>
       <Text py = {2}>{props.detailed_description}</Text>
       <Text pt = {4} pb = {2} fontWeight = "bold">Synonyms:</Text>
       <Flex gap = {4} flexWrap = "wrap">
-        {props.synonyms.map((synonym, i) => (
+        {props.synonyms?.map((synonym, i) => (
           <NavLink
             style = {{textDecoration: "underline"}}
             to = {`/words/${synonym}`}
@@ -37,7 +37,7 @@ export default function MainWord(props: MainWordProps) {
       </Flex>
       <Text pt = {4} pb = {2} fontWeight = "bold">Antonyms:</Text>
       <Flex gap = {4} flexWrap = "wrap">
-        {props.antonyms.map((antonym, i) => (
+        {props.antonyms?.map((antonym, i) => (
           <NavLink
             style = {{textDecoration: "underline"}}  
             to = {`/words/${antonym}`}

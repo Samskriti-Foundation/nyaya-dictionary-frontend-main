@@ -66,6 +66,7 @@ export default function SearchBar({setSearchTermOut}: {setSearchTermOut?: React.
           border = "none"
           bg = "foreground"
           color = "primary"
+          type = "search"
           size = {{base: "md", md: "lg"}}
           onChange = {(e) => handleSearch(e)}
           onKeyDown={(e) => {
