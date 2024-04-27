@@ -19,7 +19,13 @@ Nyaya Khosha is a Sanskrit-English dictionary developed by Samskriti Foundation,
    git clone https://github.com/Samskriti-Foundation/nyaya-dictionary-frontend-main.git
    ```
 
-2. **Install Dependencies:**
+2. **Navigate to the project directory:**
+  
+    ```bash
+    cd nyaya-dictionary-frontend-main
+    ```
+
+3. **Install Dependencies:**
    
     a. Install yarn if not already installed
 
@@ -38,4 +44,3 @@ Nyaya Khosha is a Sanskrit-English dictionary developed by Samskriti Foundation,
    ```bash
    yarn dev
    ```
-    
