@@ -1,36 +1,36 @@
-import { Box, IconButton } from "@chakra-ui/react";
-import Navbar from "../components/Navbar/Navbar";
+import { Box, IconButton } from "@chakra-ui/react"
+import Navbar from "../components/Navbar/Navbar"
 
-import { FaArrowAltCircleUp } from "react-icons/fa";
+import { FaArrowAltCircleUp } from "react-icons/fa"
 
 interface BaseLayoutProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 export default function BaseLayout({ children }: BaseLayoutProps) {
   return (
-    <Box minH="100vh" bg = "background">
-      <Box pos = "sticky" top = "0" zIndex={200}>
+    <Box minH="100vh" bg="background">
+      <Box pos="sticky" top="0" zIndex={200}>
         <Navbar />
       </Box>
-      <Box maxW="4xl" as = "main" mx="auto" p={4}>
+      <Box as="main" mx="auto" p={4}>
         {children}
       </Box>
       <Box
-        pos = "fixed"
-        bottom = "4"
-        right = "4"
-        display = {{base: "block", md: "none"}}
+        pos="fixed"
+        bottom="4"
+        right="4"
+        display={{ base: "block", md: "none" }}
       >
         <IconButton
-          icon = {<FaArrowAltCircleUp/>}
+          icon={<FaArrowAltCircleUp />}
           aria-label="Go Back"
-          bg = "primary"
-          color = "background"
-          _hover = {{bg: "primary"}}
-          onClick = {() => window.scrollTo({top: 0, behavior: 'smooth'})}
-          />
+          bg="primary"
+          color="background"
+          _hover={{ bg: "primary" }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        />
       </Box>
     </Box>
-  );
+  )
 }

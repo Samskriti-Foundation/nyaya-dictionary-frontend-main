@@ -1,56 +1,93 @@
-import { getWord } from "../../api/wordsApi"
-import { useQuery } from "@tanstack/react-query"
-
 import {
+  Text,
   Flex,
+  Box,
+  Heading,
+  Select,
+  Spacer,
+  Button,
+  Divider,
+  Accordion,
 } from "@chakra-ui/react"
+import { useGetWordQuery } from "../../api/words.api"
+import LoadingSpinner from "../LoadingSpinner"
+import ErrorMessage from "../ErrorMessage"
+import { FaArrowAltCircleLeft } from "react-icons/fa"
+import MeaningDisplay from "./MeaningDisplay"
+import { useState } from "react"
+import EtymologyDisplay from "./EtymologyDisplay"
+import DerivationDisplay from "./DerivationDisplay"
+import TranslationDisplay from "./TranslationDisplay"
+import ExampleDisplay from "./ExampleDisplay"
+import NyayaTextReferenceDisplay from "./NyayaTextReferenceDisplay"
 
-import NoWord from "./NoWord";
-import MainWord from "./MainWord";
-import OtherDisplay from "./OtherDisplay";
+export default function WordDisplay({ word }: { word: string }) {
+  const [meaningId, setMeaningId] = useState(1)
 
-type Translations = {
-  [key: string]: string[];
-}
-
-interface Word{
-  id: number,
-  sanskrit_word: string,
-  english_word: string,
-  etymologies: [string] | null,
-  derivations: [string] | null,
-  translations: Translations,
-  detailed_description: string | null,
-  reference_nyaya_texts: {
-    source: string,
-    desription: string | null
-  } | null,
-  synonyms: [string],
-  antonyms: [string]
-}
-
-export default function WordDisplay({word}: {word: string | undefined}) {
-  const {data}: {data: Word | undefined} = useQuery({
-    queryKey: ["word", word],
-    queryFn: () => getWord(word),
-  })
+  const { isLoading, error, data } = useGetWordQuery(word)
 
   return (
-    <Flex flexDirection="column" gap = {4} py = {8}>
-      {data ?
-        <>
-          <MainWord
-            sanskrit_word = {data.sanskrit_word}
-            english_word = {data.english_word}
-            detailed_description = {"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}
-            synonyms = {data.synonyms}
-            antonyms = {data.antonyms}
-            />
-            <OtherDisplay {...data}/>
-        </>
-        :
-        <NoWord/>
-      }
-    </Flex>
+    <Box mt="8" bg="white" boxShadow="md" p={4} w="80%" mx="auto" rounded="md">
+      {isLoading && <LoadingSpinner />}
+      {error && <ErrorMessage error={error.message} />}
+      {data ? (
+        <Box>
+          <Heading textAlign="center" fontSize="4xl" fontWeight="bold">
+            {data.sanskrit_word} | {data.english_transliteration}
+          </Heading>
+          <Spacer h="8" />
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            w="50%"
+            mx="auto"
+            wrap="wrap"
+            gap="2"
+          >
+            <Text fontWeight="bold" fontSize="lg">
+              Select Meaning:
+            </Text>
+            <Select
+              w="240px"
+              value={meaningId}
+              onChange={(e) => setMeaningId(Number(e.target.value))}
+            >
+              {data.meaning_ids?.map((meaning_id, index) => (
+                <option key={meaning_id} value={meaning_id}>
+                  {`Meaning ${index + 1}`}
+                </option>
+              ))}
+            </Select>
+          </Flex>
+          <Spacer h="2" />
+          <MeaningDisplay word={word} meaning_id={meaningId} />
+          <Divider />
+          <Accordion gap="2">
+            <EtymologyDisplay word={word} meaning_id={meaningId} />
+            <Divider />
+            <DerivationDisplay word={word} meaning_id={meaningId} />
+            <Divider />
+            <TranslationDisplay word={word} meaning_id={meaningId} />
+            <Divider />
+            <ExampleDisplay word={word} meaning_id={meaningId} />
+            <Divider />
+            <NyayaTextReferenceDisplay word={word} meaning_id={meaningId} />
+          </Accordion>
+        </Box>
+      ) : (
+        <Box textAlign="center">
+          <Heading p={4}>Word not found</Heading>
+          <Button
+            onClick={() => window.history.back()}
+            leftIcon={<FaArrowAltCircleLeft />}
+            color="background"
+            bg="primary.400"
+            _hover={{ bg: "primary.500" }}
+          >
+            Go Back
+          </Button>
+        </Box>
+      )}
+    </Box>
   )
 }
