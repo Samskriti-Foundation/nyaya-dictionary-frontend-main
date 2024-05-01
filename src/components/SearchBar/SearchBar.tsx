@@ -14,6 +14,7 @@ import { searchWord } from "../../api/words.api"
 import { useDebounce } from "../../hooks/useDebounce"
 import { useNavigate } from "react-router-dom"
 import { FaSearch } from "react-icons/fa"
+import Sanscript from "@indic-transliteration/sanscript"
 
 const languages = ["English", "Sanskrit"]
 
@@ -25,6 +26,7 @@ export default function SearchBar({
   const [langValue, setLangValue] = useState(languages[0])
   const [isSearching, setIsSearching] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
+  const [englishSearchTerm, setEnglishSearchTerm] = useState("")
   const debouncedSearch = useDebounce(searchTerm, 300)
 
   const navigate = useNavigate()
@@ -36,16 +38,40 @@ export default function SearchBar({
   })
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    e.target.value == "" ? setIsSearching(false) : setIsSearching(true)
-    setSearchTerm(e.target.value)
-    setSearchTermOut && setSearchTermOut(e.target.value)
+    const value = e.target.value
+    value == "" ? setIsSearching(false) : setIsSearching(true)
+    setEnglishSearchTerm((prev) => prev + value.charAt(value.length - 1))
+    if (langValue === languages[0]) {
+      setSearchTerm(value)
+      setSearchTermOut && setSearchTermOut(value)
+    } else {
+      let transliteration = ""
+      if ((e.nativeEvent as InputEvent).inputType === "deleteContentBackward") {
+        setSearchTerm(value)
+        const englishTransliteration = Sanscript.t(value, "devanagari", "hk")
+        setEnglishSearchTerm(englishTransliteration)
+      } else {
+        // If any other key is pressed, transliterate the entire text
+        transliteration = Sanscript.t(
+          englishSearchTerm + value.charAt(value.length - 1),
+          "hk",
+          "devanagari"
+        )
+        setSearchTerm(transliteration)
+      }
+    }
   }
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value
-    value == languages[0]
-      ? setLangValue(languages[0])
-      : setLangValue(languages[1])
+    if (value === languages[0]) {
+      setLangValue(languages[0])
+      setSearchTerm(englishSearchTerm)
+    } else {
+      setLangValue(languages[1])
+      const transliteration = Sanscript.t(englishSearchTerm, "hk", "devanagari")
+      setSearchTerm(transliteration)
+    }
   }
 
   return (
@@ -82,6 +108,7 @@ export default function SearchBar({
             border="none"
             bg="white"
             type="search"
+            value={searchTerm}
             size={{ base: "md", md: "lg" }}
             onChange={(e) => handleSearch(e)}
             onKeyDown={(e) => {
