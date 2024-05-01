@@ -39,7 +39,16 @@ export default function SearchBar({
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    value == "" ? setIsSearching(false) : setIsSearching(true)
+
+    if (value == "") {
+      setIsSearching(false)
+      setSearchTerm("")
+      setEnglishSearchTerm("")
+      setSearchTermOut && setSearchTermOut("")
+    } else {
+      setIsSearching(true)
+    }
+
     setEnglishSearchTerm((prev) => prev + value.charAt(value.length - 1))
     if (langValue === languages[0]) {
       setSearchTerm(value)
@@ -58,6 +67,7 @@ export default function SearchBar({
           "devanagari"
         )
         setSearchTerm(transliteration)
+        setSearchTermOut && setSearchTermOut(transliteration)
       }
     }
   }
