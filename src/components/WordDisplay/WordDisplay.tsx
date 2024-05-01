@@ -14,7 +14,7 @@ import LoadingSpinner from "../LoadingSpinner"
 import ErrorMessage from "../ErrorMessage"
 import { FaArrowAltCircleLeft } from "react-icons/fa"
 import MeaningDisplay from "./MeaningDisplay"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EtymologyDisplay from "./EtymologyDisplay"
 import DerivationDisplay from "./DerivationDisplay"
 import TranslationDisplay from "./TranslationDisplay"
@@ -23,8 +23,11 @@ import NyayaTextReferenceDisplay from "./NyayaTextReferenceDisplay"
 
 export default function WordDisplay({ word }: { word: string }) {
   const [meaningId, setMeaningId] = useState(1)
-
   const { isLoading, error, data } = useGetWordQuery(word)
+
+  useEffect(() => {
+    setMeaningId(data?.meaning_ids[0] || 1)
+  }, [data?.meaning_ids])
 
   return (
     <Box mt="8" bg="white" boxShadow="md" p={4} w="80%" mx="auto" rounded="md">

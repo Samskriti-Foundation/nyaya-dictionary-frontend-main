@@ -93,7 +93,7 @@ export const getWord = async (word: string) => {
 
 export const useGetWordQuery = (word: string) => {
   return useQuery<TWord>({
-    queryKey: ["word", word],
+    queryKey: ["words", word],
     queryFn: () => getWord(word),
   })
 }
