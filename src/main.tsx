@@ -15,7 +15,7 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <BrowserRouter basename="/nyaya-khosha">
+      <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <App />
           <ReactQueryDevtools initialIsOpen={false} />
