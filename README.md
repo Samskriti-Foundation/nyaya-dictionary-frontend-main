@@ -39,7 +39,13 @@ Nyaya Khosha is a Sanskrit-English dictionary developed by Samskriti Foundation,
    yarn
    ```
 
-3. **Start server:**
+3. **Copy the environment variables file**
+   
+  ```bash
+  cp .env.example .env
+  ```
+
+4. **Start server:**
 
    ```bash
    yarn dev
